@@ -13,10 +13,25 @@ import contactRoutes from "./routes/contactRoutes.js";
 const app = express();
  
 // ⚡ CORS configuration
+
+const allowedOrigins = [
+  "http://localhost:5173",       // Vite local frontend
+  process.env.FRONTEND_URL       // Your production frontend
+];
+
 app.use(cors({
-  origin:process.env.FRONTEND_URL,   // only allow your frontend
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,                   // only if your frontend uses cookies/auth
+  origin: function (origin, callback) {
+    // allow requests with no origin (like Postman or curl)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST"],
+  credentials: true,
 }));
 
 // Middleware
