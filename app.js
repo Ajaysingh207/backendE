@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config(); 
 
 import express from "express";
-
+import cors from "cors";
 
 import contactRoutes from "./routes/contactRoutes.js";
 
@@ -13,13 +13,13 @@ import contactRoutes from "./routes/contactRoutes.js";
 const app = express();
  
 // ⚡ CORS configuration
-// app.use(cors({
-//   origin:process.env.FRONTEND_URL,   // only allow your frontend
-//   methods: ["GET", "POST", "PUT", "DELETE"],
-//   credentials: true,                   // only if your frontend uses cookies/auth
-// }));
+app.use(cors({
+  origin:process.env.FRONTEND_URL,   // only allow your frontend
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  // credentials: true,                   // only if your frontend uses cookies/auth
+}));
 
-// Middleware
+
 app.use(express.json());
 
 // Routes
